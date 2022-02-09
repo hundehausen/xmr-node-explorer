@@ -12,7 +12,7 @@ datasource db {
 
 model Node {
   node_id  Int     @id @default(autoincrement())
-  blockheight Int
+  height   Int
   name     String?
   url      String  @unique
   lastSeen Int
