@@ -13,7 +13,7 @@ const AddNode = () => {
   };
   return (
     <div className="mx-auto w-1/4">
-      <h1 className="text-xl text-center mt-4">Add Node</h1>
+      <h1 className="text-xl text-center mt-4">Add node</h1>
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 gap-6">
           <label className="block">

@@ -31,7 +31,7 @@ function GlobalFilter({
       <span className="text-gray-700">Search: </span>
       <input
         type="text"
-        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
         value={value || ""}
         onChange={(e) => {
           setValue(e.target.value);
@@ -211,7 +211,7 @@ function Table({ columns, data }) {
           </Button>
         </div>
         <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-          <div className="flex gap-x-2">
+          <div className="flex gap-x-2 items-baseline">
             <span className="text-sm text-gray-700">
               Page <span className="font-medium">{state.pageIndex + 1}</span> of{" "}
               <span className="font-medium">{pageOptions.length}</span>

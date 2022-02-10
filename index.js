@@ -20,19 +20,20 @@ app.get("/nodes", async (req, res) => {
 
 app.post("/add", async (req, res) => {
   const { url, country, port } = req.body || {};
-  if (url && country && port) {
-    const info = await getNodeInfo({ url, port });
+  if (url && port) {
+    const { info, ip } = await getNodeInfo({ url, port });
     if (info.status === "OK") {
       try {
         const node = await prisma.node.create({
           data: {
             country: country,
             height: info.height,
-            lastSeen: Date.now(),
             port: parseInt(port),
             url: url,
+            ip: ip,
           },
         });
+        console.log("Created node", node.url);
       } catch (error) {
         if (error.code === "P2002") {
           console.log("Node already exists");
@@ -58,12 +59,34 @@ const getNodeInfo = async (node) => {
       contentType: "application/json",
     });
     if (response.data.result) {
-      return response.data.result;
+      return {
+        info: response.data.result,
+        ip: response.request.socket.remoteAddress,
+      };
     }
   } catch (error) {
     return error;
   }
 };
+
+const updadeNodes = async () => {
+  const nodes = await prisma.node.findMany({});
+  nodes.forEach(async (node) => {
+    const { info } = await getNodeInfo({ url: node.url, port: node.port });
+    if (info.status === "OK") {
+      await prisma.node.update({
+        where: { id: node.id },
+        data: {
+          height: info.height,
+          lastSeen: new Date(),
+        },
+      });
+    }
+  });
+  console.log("Updated nodes");
+};
+
+setInterval(updadeNodes, 10000);
 
 //Whenever someone connects this gets executed
 io.on("connection", function (socket) {
