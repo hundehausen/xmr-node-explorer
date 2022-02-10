@@ -1,12 +1,12 @@
 const Node = ({ node }) => {
-  const { name, port, url, country, lastSeen } = node;
+  const { port, url, height, country, lastSeen } = node;
   return (
-    <div className="flex flex-row px-4 py-2 bg-slate-400 mt-2">
-      <div className="node-name">{name}</div>
-      <div className="node-port">{port}</div>
-      <div className="node-url">{url}</div>
-      <div className="node-country">{country}</div>
-      <div className="node-last-seen">{lastSeen}</div>
+    <div className="flex flex-row px-4 py-2 bg-slate-100 mt-2 text-center justify-center">
+      <div className="mx-4">{url}</div>
+      <div className="mx-4">{port}</div>
+      <div className="mx-4">{height}</div>
+      <div className="mx-4">{country}</div>
+      <div className="mx-4">{lastSeen}</div>
     </div>
   );
 };

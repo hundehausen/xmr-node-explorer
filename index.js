@@ -23,18 +23,25 @@ app.post("/add", async (req, res) => {
   if (url && country && port) {
     const info = await getNodeInfo({ url, port });
     if (info.status === "OK") {
-      await prisma.node.create({
-        data: {
-          country: country,
-          height: info.height,
-          lastSeen: Date.now(),
-          port: port,
-          url: url,
-        },
-      });
-      res.send("Created entry for " + url);
+      try {
+        const node = await prisma.node.create({
+          data: {
+            country: country,
+            height: info.height,
+            lastSeen: Date.now(),
+            port: parseInt(port),
+            url: url,
+          },
+        });
+      } catch (error) {
+        if (error.code === "P2002") {
+          console.log("Node already exists");
+          res.json({ status: "ERROR", message: "Node already exists" });
+        }
+        console.log(error);
+      }
     } else {
-      res.send("Node unreachable");
+      res.json({ status: "ERROR", message: "Node unreachable" });
     }
   }
   return;

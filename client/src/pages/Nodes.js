@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { getNodes } from "../lib/api";
-import Node from "../components/Node";
+import Table, { SelectColumnFilter } from "../components/Table";
 
 const Nodes = () => {
   const [nodes, setNodes] = useState([]);
@@ -13,13 +13,39 @@ const Nodes = () => {
     fetchData();
   }, []);
 
+  const columns = useMemo(
+    () => [
+      {
+        Header: "Address",
+        accessor: "url",
+      },
+      {
+        Header: "Port",
+        accessor: "port"
+      },
+      {
+        Header: "Height",
+        accessor: "height",
+      },
+      {
+        Header: "Country",
+        accessor: "country",
+        Filter: SelectColumnFilter,
+        filter: 'includes',
+      },
+      {
+        Header: "Last seen",
+        accessor: "lastSeen",
+      },
+    ],
+    []
+  );
+
   return (
-    <div className="mx-auto text-center">
+    <div className="mx-auto text-center flex flex-col">
       <h1 className="text-xl">All nodes</h1>
-      <div>
-        {nodes.map((node) => (
-          <Node node={node}/>
-        ))}
+      <div className="mx-auto">
+        <Table columns={columns} data={nodes} />
       </div>
     </div>
   );
