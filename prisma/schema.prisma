@@ -15,7 +15,7 @@ model Node {
   height   Int
   name     String?
   url      String  @unique
-  lastSeen Int
+  lastSeen DateTime
   country  String?
   port     Int
 }

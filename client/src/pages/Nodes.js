@@ -44,7 +44,7 @@ const Nodes = () => {
   return (
     <div className="mx-auto text-center flex flex-col">
       <h1 className="text-xl">All nodes</h1>
-      <div className="mx-auto">
+      <div className="mx-auto mt-8">
         <Table columns={columns} data={nodes} />
       </div>
     </div>
